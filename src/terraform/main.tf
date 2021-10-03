@@ -34,7 +34,7 @@ resource "google_compute_instance" "teapot" {
   }
   metadata = {
     user-data      = data.template_file.teapot-startup.rendered
-    ssh-keys       = file(var.ssh_key_file)
+    ssh-keys       = var.ssh_key_file
     startup-script = file("templates/startup.sh")
   }
 
