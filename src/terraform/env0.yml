@@ -5,4 +5,4 @@ deploy:
     terraformPlan:
       before:
         - pip install checkov
-        - checkov -d . --quiet --compact --soft-fail-on
+        - checkov -d . --quiet --compact --soft-fail
