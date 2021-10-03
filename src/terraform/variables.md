@@ -26,7 +26,8 @@ No modules.
 | [google_compute_instance.teapot](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/compute_instance) | resource |
 | [google_compute_network.teapot_vpc_network](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/compute_network) | resource |
 | [google_compute_subnetwork.teapot_subnetwork](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/compute_subnetwork) | resource |
-| [google_project_iam_binding.project](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/project_iam_binding) | resource |
+| [google_project_iam_binding.teapot_service_account_logs](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/project_iam_binding) | resource |
+| [google_project_iam_binding.teapot_service_account_metrics](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/project_iam_binding) | resource |
 | [google_service_account.teapot_service_account](https://registry.terraform.io/providers/hashicorp/google/3.86.0/docs/resources/service_account) | resource |
 | [template_file.teapot-startup](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
