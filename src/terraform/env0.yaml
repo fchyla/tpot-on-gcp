@@ -1,0 +1,8 @@
+version: 1
+
+deploy:
+  steps:
+    terraformPlan:
+      before:
+        - pip install checkov
+        - checkov -d . --quiet --compact --soft-fail-on
