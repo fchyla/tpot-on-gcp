@@ -98,7 +98,7 @@ resource "google_compute_firewall" "teapot-admin" {
     protocol = "tcp"
     ports    = ["64294", "64295", "64297"]
   }
-  source_ranges           = var.admin_ip
+  source_ranges           = [var.admin_ip]
   target_service_accounts = [google_service_account.teapot_service_account.email]
 }
 
