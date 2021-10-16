@@ -4,7 +4,7 @@ variable "admin_ip" {
 }
 
 variable "gce_instance_type" {
-  default = "n2-highmem-2"
+  default     = "n2-highmem-2"
   description = "Instances size for deployment"
 }
 
@@ -54,4 +54,8 @@ variable "web_password" {
 
 variable "ssh_key_file" {
   description = "Path for public SSH key file"
+}
+
+variable "terraform_account" {
+  description = "Terraform account name that will be used to deploy the infra using impersionation"
 }
