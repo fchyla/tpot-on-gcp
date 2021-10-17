@@ -68,23 +68,19 @@ resource "google_service_account" "teapot_service_account" {
   display_name = "Time to make some tea"
 }
 
-resource "google_project_iam_binding" "teapot_service_account_logs" {
+resource "google_project_iam_member" "teapot_service_account_logs" {
   project = var.project
   role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.teapot_service_account.email}"
 
-  members = [
-    "serviceAccount:${google_service_account.teapot_service_account.email}",
-  ]
 }
 
 
-resource "google_project_iam_binding" "teapot_service_account_metrics" {
+resource "google_project_iam_member" "teapot_service_account_metrics" {
   project = var.project
   role    = "roles/monitoring.metricWriter"
+  members = "serviceAccount:${google_service_account.teapot_service_account.email}"
 
-  members = [
-    "serviceAccount:${google_service_account.teapot_service_account.email}",
-  ]
 }
 
 #################################################################################
