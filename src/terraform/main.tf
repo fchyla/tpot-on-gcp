@@ -79,7 +79,7 @@ resource "google_project_iam_member" "teapot_service_account_logs" {
 resource "google_project_iam_member" "teapot_service_account_metrics" {
   project = var.project
   role    = "roles/monitoring.metricWriter"
-  members = "serviceAccount:${google_service_account.teapot_service_account.email}"
+  member  = "serviceAccount:${google_service_account.teapot_service_account.email}"
 
 }
 
