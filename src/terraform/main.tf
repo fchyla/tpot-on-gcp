@@ -1,12 +1,12 @@
 #################################################################################
 # Network
 resource "google_compute_network" "teapot_vpc_network" {
-  name                    = "teapot-vpc"
+  name                    = "teapot-vpc-${local.deployment}"
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "teapot_subnetwork" {
-  name          = "teapot-subnetwork"
+  name          = "teapot-subnetwork-${local.deployment}"
   ip_cidr_range = "10.2.0.0/24"
   region        = "europe-west4"
   network       = google_compute_network.teapot_vpc_network.id
@@ -19,8 +19,8 @@ resource "google_compute_subnetwork" "teapot_subnetwork" {
 }
 #################################################################################
 # Instance
-resource "google_compute_instance" "teapot" {
-  name         = "teapot"
+resource "google_compute_instance" "teapot-collector" {
+  name         = "teapot-collector-${local.deployment}"
   machine_type = var.gce_instance_type
   zone         = var.gce_zone
 
@@ -33,8 +33,7 @@ resource "google_compute_instance" "teapot" {
     }
   }
   metadata = {
-    user-data      = data.template_file.teapot-startup.rendered
-    ssh-keys       = var.ssh_key_file
+    user-data      = data.template_file.teapot-startup-collector.rendered
     startup-script = file("templates/startup.sh")
   }
 
@@ -50,13 +49,13 @@ resource "google_compute_instance" "teapot" {
     scopes = ["cloud-platform"]
   }
 }
-data "template_file" "teapot-startup" {
+data "template_file" "teapot-startup-collector" {
   template = file("templates/cloud-init.yaml")
 
   vars = {
     timezone     = var.timezone,
     password     = var.linux_password,
-    tpot_flavor  = var.teapot_flavor,
+    tpot_flavor  = "COLLECTOR",
     web_user     = var.web_user,
     web_password = var.web_password
   }
@@ -64,7 +63,7 @@ data "template_file" "teapot-startup" {
 #################################################################################
 # Service account
 resource "google_service_account" "teapot_service_account" {
-  account_id   = "teapot-runner"
+  account_id   = "teapot-runner-${local.deployment}"
   display_name = "Time to make some tea"
 }
 
@@ -86,7 +85,7 @@ resource "google_project_iam_member" "teapot_service_account_metrics" {
 #################################################################################
 # Firewall
 resource "google_compute_firewall" "teapot-admin" {
-  name        = "teapot-access"
+  name        = "teapot-access-${local.deployment}"
   network     = google_compute_network.teapot_vpc_network.id
   description = "To watch the kettle boil"
 
@@ -99,7 +98,7 @@ resource "google_compute_firewall" "teapot-admin" {
 }
 
 resource "google_compute_firewall" "teapot-public-tcp" {
-  name        = "teapot-access-tcp"
+  name        = "teapot-access-tcp-${local.deployment}"
   network     = google_compute_network.teapot_vpc_network.id
   description = "To watch the kettle boil"
 
@@ -112,7 +111,7 @@ resource "google_compute_firewall" "teapot-public-tcp" {
 }
 
 resource "google_compute_firewall" "teapot-public-udp" {
-  name        = "teapot-access-udp"
+  name        = "teapot-access-udp-${local.deployment}"
   network     = google_compute_network.teapot_vpc_network.id
   description = "To watch the kettle boil"
 
